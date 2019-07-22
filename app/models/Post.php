@@ -229,6 +229,7 @@ class Post {
             $id = $_POST['id'];
             $author = $_POST['author'];
 
+            $database->delete(['comments'],[['article_id','=',"'".$id."'"]]);
             $database->delete(['articles'],[['id','=',"'".$id."'"]]);
 
             $message->setMsg('You deleted the post.','error');
