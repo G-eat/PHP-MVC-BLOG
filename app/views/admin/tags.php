@@ -82,7 +82,16 @@
                 },
                 "targets": 3
             },
-            { "visible": true,  "targets": [ 3 ] }
+            {
+                // The `data` parameter refers to the data for the cell (defined by the
+                // `data` option, which defaults to the column being worked with, in
+                // this case `data: 0`.
+                "render": function ( data, type, row ) {
+                    return '<a href="/post/tag/'+ row[1].substr(1)+'">'+row[1]+'</a>';
+                    // return '<p class="btn btn-outline-danger delete-tag" data-id="'+row[0]+'" data-name="'+row[1]+'">X</p>';
+                },
+                "targets": 1
+            },
         ]
     })
 

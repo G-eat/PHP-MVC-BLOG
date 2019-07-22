@@ -11,7 +11,7 @@
 ?>
 
 <div class="container">
-    <h3 class="text-center">Tag</h3>
+    <h3 class="text-center">Comments</h3>
     <table id="comments" class="display" style="width:100%">
         <thead class="bg-dark">
             <tr>
@@ -34,12 +34,6 @@
             </tr>
         </tfoot>
     </table>
-    <?php if(isset($_SESSION['admin'])) {?>
-        <!-- Button trigger modal -->
-        <button type="button" class="btn btn-dark btn-block mt-3 active" data-toggle="modal" data-target="#exampleModal">
-          ADD Category
-        </button>
-    <?php } ?>
 </div>
 
 
