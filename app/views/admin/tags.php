@@ -11,6 +11,12 @@
 
   include '../app/views/include/messages.php';
 ?>
+<style media="screen">
+    span {
+        display:inline-block;
+        margin-right: 10px;
+    }
+</style>
 
     <div class="container">
         <h3 class="text-center">Tags</h3>
@@ -20,7 +26,7 @@
                     <th class="border-right border-white text-white">Id</th>
                     <th class="border-right border-white text-white">Name</th>
                     <th class="border-right border-white text-white">Created</th>
-                    <th class="border-right border-white text-white">Delete</th>
+                    <th class="border-right border-white text-white">Actions</th>
                 </tr>
             </thead>
             <tfoot class="bg-dark">
@@ -28,7 +34,7 @@
                     <th class="border-right border-white text-white">Id</th>
                     <th class="border-right border-white text-white">Name</th>
                     <th class="border-right border-white text-white">Created</th>
-                    <th class="border-right border-white text-white">Delete</th>
+                    <th class="border-right border-white text-white">Actions</th>
                 </tr>
             </tfoot>
         </table>
@@ -77,21 +83,21 @@
                 // `data` option, which defaults to the column being worked with, in
                 // this case `data: 0`.
                 "render": function ( data, type, row ) {
-                    return '<form action="/tag/delete" method="post"><input type="hidden" name="tag_id" value='+row[0]+'><input type="hidden" name="tag_name" value='+row[1]+'><button type="submit" class="btn btn-outline-danger btn-sm">X</button></a></form>';
+                    return '<span><a href="/post/tag/'+ row[1].substr(1)+'"><i class="fa fa-eye fa-lg" aria-hidden="true"></i></a></span><span><form onsubmit="return confirm(`Are you sure you want to delete this tag?`);" action="/tag/delete" method="post"><input type="hidden" name="tag_id" value='+row[0]+'><input type="hidden" name="tag_name" value='+row[1]+'><button type="submit" class="btn btn-outline-danger btn-sm"><i class="fa fa-trash fa-lg" aria-hidden="true"></i></button></a></form></span>';
                     // return '<p class="btn btn-outline-danger delete-tag" data-id="'+row[0]+'" data-name="'+row[1]+'">X</p>';
                 },
                 "targets": 3
             },
-            {
-                // The `data` parameter refers to the data for the cell (defined by the
-                // `data` option, which defaults to the column being worked with, in
-                // this case `data: 0`.
-                "render": function ( data, type, row ) {
-                    return '<a href="/post/tag/'+ row[1].substr(1)+'">'+row[1]+'</a>';
-                    // return '<p class="btn btn-outline-danger delete-tag" data-id="'+row[0]+'" data-name="'+row[1]+'">X</p>';
-                },
-                "targets": 1
-            },
+            // {
+            //     // The `data` parameter refers to the data for the cell (defined by the
+            //     // `data` option, which defaults to the column being worked with, in
+            //     // this case `data: 0`.
+            //     "render": function ( data, type, row ) {
+            //         return '<a href="/post/tag/'+ row[1].substr(1)+'">'+row[1]+'</a>';
+            //         // return '<p class="btn btn-outline-danger delete-tag" data-id="'+row[0]+'" data-name="'+row[1]+'">X</p>';
+            //     },
+            //     "targets": 1
+            // },
         ]
     })
 
@@ -99,8 +105,6 @@
         $(".delete-tag").click(function(){
             var id = $(this).data('id') ;
             var name = $(this).data('name') ;
-            alert(1);
-            alert(id);
 
             $.ajax({
                      url: "/tag/delete",

@@ -62,6 +62,7 @@ class Category {
 
     public function delete() {
         $message = new Message();
+        $category = new Category();
 
         if ($_POST['category_id'] !== '') {
           $this->deleteCategory($_POST['category_id']);

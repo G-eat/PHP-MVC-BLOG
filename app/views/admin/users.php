@@ -18,6 +18,7 @@
                   <th class="border-right border-white text-white">Id</th>
                   <th class="border-right border-white text-white">Username</th>
                   <th class="border-right border-white text-white">Created</th>
+                  <th class="border-right border-white text-white">Actions</th>
               </tr>
           </thead>
           <tfoot class="bg-dark">
@@ -25,6 +26,7 @@
                   <th class="border-right border-white text-white">Id</th>
                   <th class="border-right border-white text-white">Username</th>
                   <th class="border-right border-white text-white">Created</th>
+                  <th class="border-right border-white text-white">Actions</th>
               </tr>
           </tfoot>
       </table>
@@ -44,10 +46,10 @@
                 // `data` option, which defaults to the column being worked with, in
                 // this case `data: 0`.
                 "render": function ( data, type, row ) {
-                    return '<a href="/post/user/'+row[1]+'">'+row[1]+'</a>';
+                    return '<a href="/post/user/'+row[1]+'"><i class="fa fa-eye fa-lg" aria-hidden="true"></i></a>';
                     // return '<p class="btn btn-outline-danger delete-tag" data-id="'+row[0]+'" data-name="'+row[1]+'">X</p>';
                 },
-                "targets": 1
+                "targets": 3
             }
         ]
     });

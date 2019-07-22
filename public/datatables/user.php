@@ -31,6 +31,7 @@ $columns = array(
   array( 'db' => 'id', 'dt' => 0 ),
   array( 'db' => 'username',  'dt' => 1 ),
   array( 'db' => 'created_at',   'dt' => 2 ),
+  array( 'db' => 'username',   'dt' => 3 )
 );
 
 // SQL server connection information

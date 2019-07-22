@@ -9,16 +9,22 @@
     Controller::redirect('post/index');
   }
 ?>
+<style media="screen">
+    span {
+        display:inline-block;
+        margin-right: 10px;
+    }
+</style>
 
 <div class="container">
-    <h3 class="text-center">Tags</h3>
+    <h3 class="text-center">Categories</h3>
     <table id="categories" class="display" style="width:100%">
         <thead class="bg-dark">
             <tr>
                 <th class="border-right border-white text-white">Id</th>
                 <th class="border-right border-white text-white">Name</th>
                 <th class="border-right border-white text-white">Created</th>
-                <th class="border-right border-white text-white">Action</th>
+                <th class="border-right border-white text-white">Actions</th>
             </tr>
         </thead>
         <tfoot class="bg-dark">
@@ -26,7 +32,7 @@
                 <th class="border-right border-white text-white">Id</th>
                 <th class="border-right border-white text-white">Name</th>
                 <th class="border-right border-white text-white">Created</th>
-                <th class="border-right border-white text-white">Action</th>
+                <th class="border-right border-white text-white">Actions</th>
             </tr>
         </tfoot>
     </table>
@@ -74,21 +80,21 @@
                 // `data` option, which defaults to the column being worked with, in
                 // this case `data: 0`.
                 "render": function ( data, type, row ) {
-                    return '<form action="/category/delete" method="post"><input type="hidden" name="category_id" value='+row[0]+'><input type="hidden" name="category_name" value='+row[1]+'><button type="submit" class="btn btn-outline-danger btn-sm">X</button></a></form>';
+                    return '<span><a href="/post/category/'+row[1]+'"><i class="fa fa-eye fa-lg" aria-hidden="true"></i></a></span><span><a href="/category/change/'+row[0]+'"><i class="fa text-success fa-pencil fa-lg" aria-hidden="true"></i></a></span><span><form onsubmit="return confirm(`Are you sure you want to delete this category?`);" action="/category/delete" method="post"><input type="hidden" name="category_id" value='+row[0]+'><input type="hidden" name="category_name" value='+row[1]+'><button type="submit" class="btn btn-outline-danger btn-sm"><i class="fa fa-trash fa-lg" aria-hidden="true"></i></button></a></form></span>';
                     // return '<p class="btn btn-outline-danger delete-tag" data-id="'+row[0]+'" data-name="'+row[1]+'">X</p>';
                 },
                 "targets": 3
             },
-            {
-                // The `data` parameter refers to the data for the cell (defined by the
-                // `data` option, which defaults to the column being worked with, in
-                // this case `data: 0`.
-                "render": function ( data, type, row ) {
-                    return '<a href="/category/change/'+row[0]+'">'+row[1]+'</a>';
-                    // return '<p class="btn btn-outline-danger delete-tag" data-id="'+row[0]+'" data-name="'+row[1]+'">X</p>';
-                },
-                "targets": 1
-            }
+            // {
+            //     // The `data` parameter refers to the data for the cell (defined by the
+            //     // `data` option, which defaults to the column being worked with, in
+            //     // this case `data: 0`.
+            //     "render": function ( data, type, row ) {
+            //         return '<a href="/category/change/'+row[0]+'">'+row[1]+'</a>';
+            //         // return '<p class="btn btn-outline-danger delete-tag" data-id="'+row[0]+'" data-name="'+row[1]+'">X</p>';
+            //     },
+            //     "targets": 1
+            // }
         ]
     });
   </script>

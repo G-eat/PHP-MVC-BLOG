@@ -1,7 +1,7 @@
 <?php
 
   use App\Core\Controller;
-  
+
   include '../app/views/include/header.php';
   include '../app/views/include/messages.php';
   if (!isset($_SESSION['admin'])) {
@@ -17,7 +17,7 @@
           <?php foreach ($this->data['articles'] as $article) { ?>
               <a href="/post/individual/<?php echo $article['slug'] ?>" class="list-group-item list-group-item-action" id="<?php echo $article['id'] ?>">
                   <span style="float:left">
-                      <form action="/admin/delete" method="post">
+                      <form action="/admin/delete" onsubmit="return confirm(`Are you sure you want to delete this article?`);" method="post">
                           <input type="hidden" name="id" value="<?php echo $article['id'] ?>">
                           <input class="btn btn-danger btn-sm mr-4" type="submit" name="delete" value="X">
                       </form>
