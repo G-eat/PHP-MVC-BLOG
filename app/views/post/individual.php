@@ -9,7 +9,7 @@
         <h3 class="text-center text-info"><?php echo $this->data['article'][0]['title'] ?></h3>
         <div class="list-group">
           <div class="card mb-3">
-            <img class="card-img-top" src="\postPhoto\<?php echo $this->data['article'][0]['file_name'] ?>" style="width:70%;height:50%;margin:auto" alt="Card image cap">
+            <img class="card-img-top" src="\originalPostPhoto\<?php echo $this->data['article'][0]['file_name'] ?>" style="width:70%;height:50%;margin:auto" alt="Card image cap">
             <div class="card-body">
               <p class="card-text"><?php echo $this->data['article'][0]['body'] ?></p>
               <br>

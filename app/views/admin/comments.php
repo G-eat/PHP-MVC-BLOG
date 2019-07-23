@@ -16,7 +16,7 @@
         <thead class="bg-dark">
             <tr>
                 <th class="border-right border-white text-white">Id</th>
-                <th class="border-right border-white text-white">Comment</th>
+                <th class="border-right border-white text-white" style="width:20%">Comment</th>
                 <th class="border-right border-white text-white" style="width:5%">Article</th>
                 <th class="border-right border-white text-white">Author</th>
                 <th class="border-right border-white text-white">Created</th>
@@ -26,7 +26,7 @@
         <tfoot class="bg-dark">
             <tr>
                 <th class="border-right border-white text-white">Id</th>
-                <th class="border-right border-white text-white">Comment</th>
+                <th class="border-right border-white text-white" style="width:20%">Comment</th>
                 <th class="border-right border-white text-white" style="width:5%">Article</th>
                 <th class="border-right border-white text-white">Author</th>
                 <th class="border-right border-white text-white">Created</th>

@@ -5,6 +5,12 @@
         "ajax":  "/datatables/comment.php",
         "columnDefs": [
             {
+                "render": function ( data, type, row ) {
+                    return '<p style="width :200px;overflow-x: scroll;">'+row[1]+'</p>';
+                },
+                "targets": 1
+            },
+            {
                 // The `data` parameter refers to the data for the cell (defined by the
                 // `data` option, which defaults to the column being worked with, in
                 // this case `data: 0`.

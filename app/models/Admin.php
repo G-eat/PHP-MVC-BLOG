@@ -34,7 +34,7 @@ class Admin
         $database = new Database();
         return $database->update(['comments'], [['accepted','=',"'".$is_accepted."'"]], [['id','=',"'".$id."'"]]);
     }
-    
+
     public function getArticleById($id)
     {
         $database = new Database();
@@ -68,6 +68,7 @@ class Admin
 
         $id = $_POST['id'];
 
+        $database->delete(['comments'], [['article_id','=',"'".$id."'"]]);
         $database->delete(['articles'], [['id','=',"'".$id."'"]]);
 
         $message->setMsg('You delete article.', 'error');

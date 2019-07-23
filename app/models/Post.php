@@ -81,9 +81,31 @@ class Post
         $image = uniqid('', true) . '-' .$_FILES['image']['name'];
 
         $file_destination = '.\postPhoto\\'.$image;
-        move_uploaded_file($_FILES['image']['tmp_name'], $file_destination);
+        // Compress Image
+        $this->compressImage($_FILES['image']['tmp_name'],$file_destination,60);
+        $file_destination_original_photo = '.\originalPostPhoto\\'.$image;
+        move_uploaded_file($_FILES['image']['tmp_name'], $file_destination_original_photo);
 
         return $image;
+    }
+
+    // Compress image
+    function compressImage($source, $destination, $quality)
+    {
+
+      $info = getimagesize($source);
+
+      if ($info['mime'] == 'image/jpeg')
+        $image = imagecreatefromjpeg($source);
+
+      elseif ($info['mime'] == 'image/gif')
+        $image = imagecreatefromgif($source);
+
+      elseif ($info['mime'] == 'image/png')
+        $image = imagecreatefrompng($source);
+
+      imagejpeg($image, $destination, $quality);
+
     }
 
     public function insertTag($tags, $slug)
