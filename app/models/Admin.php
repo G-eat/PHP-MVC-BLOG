@@ -3,68 +3,75 @@
 namespace App\Models;
 
 use App\Core\Controller;
-use App\Database\Database;
 use App\Core\Message;
+use App\Database\Database;
 
 if (!isset($_SESSION['admin'])) {
-  Controller::redirect('/post/index');
+    $message = new Message();
+
+    $message->setMsg('You\'re not authorized.', 'error');
+    Controller::redirect('/post/index');
 }
 /**
  * Admin
  */
-class Admin {
-
-    public function getAllArticlesByPosition() {
+class Admin
+{
+    public function getAllArticlesByPosition()
+    {
         $database = new Database();
-        return $database->select(['*'],['articles'],null,null,['position']);
+        return $database->select(['*'], ['articles'], null, null, ['position']);
     }
 
-    public function updateArticlesPosition($num,$position) {
+    public function updateArticlesPosition($num, $position)
+    {
         $database = new Database();
-        return $database->update(['articles'],[['position','=',"'".$num."'"]],[['id','=',"'".$position."'"]]);
+        return $database->update(['articles'], [['position','=',"'".$num."'"]], [['id','=',"'".$position."'"]]);
     }
 
-    public function updateArticlesIsPublished($is_publish,$id) {
+    public function updateArticlesIsPublished($is_publish, $id)
+    {
         $database = new Database();
-        return $database->update(['articles'],[['is_published','=',"'".$is_publish."'"]],[['id','=',"'".$id."'"]]);
+        return $database->update(['articles'], [['is_published','=',"'".$is_publish."'"]], [['id','=',"'".$id."'"]]);
     }
 
-    public function updateCommentIsAccepted($is_accepted,$id) {
+    public function updateCommentIsAccepted($is_accepted, $id)
+    {
         $database = new Database();
-        return $database->update(['comments'],[['accepted','=',"'".$is_accepted."'"]],[['id','=',"'".$id."'"]]);
+        return $database->update(['comments'], [['accepted','=',"'".$is_accepted."'"]], [['id','=',"'".$id."'"]]);
     }
 
-    public function getArticleById($id) {
+    public function getArticleById($id)
+    {
         $database = new Database();
-        return $database->select(['*'],['articles'],[['id','=',"'".$id."'"]]);
+        return $database->select(['*'], ['articles'], [['id','=',"'".$id."'"]]);
     }
 
-    public function publish() {
+    public function publish()
+    {
         $message = new Message();
 
         $is_publish = $_POST['is_publish'];
         $id = $_POST['id'];
 
-        $message->setMsg('You create task.','success');
+        $message->setMsg('You create task.', 'success');
 
-        $this->updateArticlesIsPublished($is_publish,$id);
+        $this->updateArticlesIsPublished($is_publish, $id);
 
         Controller::redirect('/admin/articles');
     }
 
-    public function delete() {
+    public function delete()
+    {
         $database = new Database();
         $message = new Message();
 
         $id = $_POST['id'];
 
-        $database->delete(['articles'],[['id','=',"'".$id."'"]]);
+        $database->delete(['articles'], [['id','=',"'".$id."'"]]);
 
-        $message->setMsg('You delete article.','error');
+        $message->setMsg('You delete article.', 'error');
 
         Controller::redirect('/admin/articles');
     }
-
 }
-
-?>

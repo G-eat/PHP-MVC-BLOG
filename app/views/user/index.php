@@ -1,12 +1,15 @@
 <?php
 
   use App\Core\Controller;
-  
+
   include '../app/views/include/header.php';
   include '../app/views/include/messages.php';
   include '../app/views/include/errors.php';
 
-  if (!isset($_SESSION['user'])){ ?>
+  if (isset($_SESSION['user'])){
+      Controller::redirect('/post/index');
+  }
+?>
 
       <?php if ($this->data['msg'] == 'success'): ?>
         <h5 class="alert alert-<?php echo $this->data['msg']; ?> container"><?php $this->data['msg'] == 'success' ?></h5>
@@ -40,10 +43,7 @@
             </form>
         </div>
 
- <?php
-    include '../app/views/include/footer.php';
-  ?>
+<?php include '../app/views/include/footer.php'; ?>
 
-<?php } else {
-  Controller::redirect('/post/index');
-} ?>
+    </body>
+</html>

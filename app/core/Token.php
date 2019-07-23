@@ -5,10 +5,12 @@ namespace App\Core;
 /**
  * tokens
  */
-class Token {
+class Token
+{
     protected $token;
 
-    public function __construct($token_value = null) {
+    public function __construct($token_value = null)
+    {
         if ($token_value) {
             $this->token = $token_value;
         } else {
@@ -19,14 +21,16 @@ class Token {
     /**
      * Get the token value
      */
-    public function getValue() {
+    public function getValue()
+    {
         return $this->token;
     }
 
     /**
      * Get the hashed token value
      */
-    public function getHash() {
-      return hash_hmac('sha256', $this->token, 'key');  // sha256 = 64 chars
+    public function getHash()
+    {
+        return hash_hmac('sha256', $this->token, 'key');  // sha256 = 64 chars
     }
 }

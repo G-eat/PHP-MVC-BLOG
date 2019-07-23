@@ -6,16 +6,16 @@
   <div class="container mt-4">
     <div class="row">
       <div class="col-9 border-right">
-          <?php if (!isset($_SESSION['user'])){ ?>
+          <?php if (!isset($_SESSION['user'])) { ?>
               <h3 class="text-center">Post of <?php echo $this->data['author'] ?></h3>
-          <?php } elseif($this->data['author'] == $_SESSION['user']){ ?>
+          <?php } elseif ($this->data['author'] == $_SESSION['user']) { ?>
               <h3 class="text-center">Post of me </h3>
           <?php } else { ?>
               <h3 class="text-center">Post of <?php echo $this->data['author'] ?></h3>
           <?php } ?>
         <?php foreach ($this->data['articles'] as $article) { ?>
             <?php if (isset($_SESSION['user']) && $this->data['author'] == $_SESSION['user']): ?>
-                <?php if ($article['is_published'] == 'pending'){ ?>
+                <?php if ($article['is_published'] == 'pending') { ?>
                     <span><?php echo $article['is_published'] ?></span>
                 <?php } else { ?>
                     <span class="<?php echo ($article['is_published'] == 'Publish') ? 'text-success':'text-danger'?>"><?php echo $article['is_published'] ?></span>
@@ -42,7 +42,7 @@
         <?php } ?>
       </div>
       <div class="col-3 border-left" style="position:fixed;right:30px">
-        <?php if (isset($_SESSION['user'])){ ?>
+        <?php if (isset($_SESSION['user'])) { ?>
             <p>Do you want to create post? </p><a href="/post/createpost">Create here.</a>
         <?php } else { ?>
             <p><a href="/user/login">LogIn</a> to create post.</p>
@@ -59,6 +59,7 @@
     </ul>
   </nav>
 
- <?php
-    include '../app/views/include/footer.php';
-  ?>
+<?php include '../app/views/include/footer.php'; ?>
+
+    </body>
+</html>

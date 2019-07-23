@@ -1,18 +1,22 @@
 <?php
 
   use App\Core\Controller;
-  
+
   include '../app/views/include/header.php';
   include '../app/views/include/messages.php';
 
-  if (!isset($_SESSION['user'])){ ?>
+  if (isset($_SESSION['user'])) {
+      Controller::redirect('/post/index');
+  }
+?>
+
     <?php if ($this->data['error'] == 'error'): ?>
       <h5 class="alert alert-danger container">Not same password-confirm password.</h5>
     <?php endif; ?>
 
   <div class="container mt-4">
     <h3 class="text-primary mb-3">New Password</h3>
-    <form action="/user/resetpassword" method="POST">
+    <form action="/user/reset_password" method="POST">
       <div class="form-group">
         <label class="text-info" for="exampleInputPassword1">New Password :</label>
         <input type="password" class="form-control" id="exampleInputPassword1" placeholder="Password" name='password' required minlength=8 maxlength=20>
@@ -29,10 +33,7 @@
     </form>
   </div>
 
- <?php
-    include '../app/views/include/footer.php';
-  ?>
+ <?php include '../app/views/include/footer.php'; ?>
 
-<?php } else {
-  Controller::redirect('/post/index');
-} ?>
+    </body>
+</html>

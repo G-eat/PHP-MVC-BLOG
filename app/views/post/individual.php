@@ -25,7 +25,7 @@
             </div>
           </div>
         </div>
-        <?php if (isset($_SESSION['user'])){ ?>
+        <?php if (isset($_SESSION['user'])) { ?>
             <h6 class="mt-5">Leave a commment :</h6>
             <form action="/comment/create" method="post">
                 <div class="input-group">
@@ -50,7 +50,7 @@
                   <p class="card-text text-muted"><?php echo $comment['created_at'] ?>
                       <?php if ((isset($_SESSION['user']) && $_SESSION['user'] === $comment['author']) || isset($_SESSION['admin'])): ?>
                           <a href='/comment/delete/<?php echo $comment['id'] ?>/<?php echo $this->data['article'][0]['slug'] ?>' style="float:right">Delete</a>
-                          <a data-toggle="modal" class="open-AddBookDialog mr-3" data-id="<?php echo $comment['id'] ?>" data-slug="<?php echo $this->data['article'][0]['slug'] ?>"
+                          <a data-toggle="modal" class="update-comment mr-3" data-id="<?php echo $comment['id'] ?>" data-slug="<?php echo $this->data['article'][0]['slug'] ?>"
                           data-comment="<?php echo $comment['comment'] ?>" data-target="#exampleModal" style="float:right;cursor:pointer;">Update</a>
                       <?php endif; ?>
                   </p>
@@ -102,6 +102,7 @@
       </div>
     </div>
 
- <?php
-    include '../app/views/include/footer.php';
-  ?>
+<?php include '../app/views/include/footer.php'; ?>
+
+    </body>
+</html>

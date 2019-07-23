@@ -1,12 +1,12 @@
 <?php
 
   use App\Core\Controller;
-  
+
   include '../app/views/include/header.php';
   include '../app/views/include/messages.php';
 
   if (!isset($_SESSION['admin'])) {
-    Controller::redirect('post/index');
+      Controller::redirect('post/index');
   }
 ?>
 
@@ -21,6 +21,7 @@
     </div>
   </div>
 
- <?php
-    include '../app/views/include/footer.php';
-  ?>
+<?php include '../app/views/include/footer.php'; ?>
+
+    </body>
+</html>

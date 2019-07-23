@@ -12,50 +12,55 @@ use App\Controllers\UserController;
 use App\Models\User;
 use App\Models\Post;
 
-  /**
+/**
    * Controller
    */
-class Controller {
-
+class Controller
+{
     protected $view;
 
     protected $model;
     protected $params = [];
 
-    public function __construct($params) {
+    public function __construct($params)
+    {
         $this->params = $params;
     }
 
-    public function create() {
+    public function create()
+    {
         $model = new $this->model;
         $model->create($this->params);
     }
 
-    public function update() {
+    public function update()
+    {
         $model = new $this->model;
         $model->update($this->params);
     }
 
-    public function delete() {
+    public function delete()
+    {
         $model = new $this->model;
         $model->delete($this->params);
     }
 
-    public function publish() {
+    public function publish()
+    {
         $model = new $this->model;
         $model->publish($this->params);
     }
 
-    public function view($name , $data=[]) {
-        $this->view = new View($name,$data);
+    public function view($name, $data=[])
+    {
+        $this->view = new View($name, $data);
         // var_dump($this->view);
         return $this->view;
     }
 
-    public static function redirect($url='') {
-      header("Location: " . $url ,true,303);
-      exit;
+    public static function redirect($url='')
+    {
+        header("Location: " . $url, true, 303);
+        exit;
     }
-
-
 }

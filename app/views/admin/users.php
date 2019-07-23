@@ -6,7 +6,7 @@
   include '../app/views/include/messages.php';
 
   if (!isset($_SESSION['admin'])) {
-    Controller::redirect('post/index');
+      Controller::redirect('post/index');
   }
 ?>
 
@@ -32,25 +32,10 @@
       </table>
   </div>
 
- <?php
+<?php
     include '../app/views/include/footer.php';
-  ?>
-  <script type="text/javascript">
-    $('#users').DataTable({
-        "processing": true,
-        "serverSide": true,
-        "ajax":  "/datatables/user.php",
-        "columnDefs": [
-            {
-                // The `data` parameter refers to the data for the cell (defined by the
-                // `data` option, which defaults to the column being worked with, in
-                // this case `data: 0`.
-                "render": function ( data, type, row ) {
-                    return '<a href="/post/user/'+row[1]+'"><i class="fa fa-eye fa-lg" aria-hidden="true"></i></a>';
-                    // return '<p class="btn btn-outline-danger delete-tag" data-id="'+row[0]+'" data-name="'+row[1]+'">X</p>';
-                },
-                "targets": 3
-            }
-        ]
-    });
-  </script>
+    include '../app/views/include/javascript/user_datatables.js';
+?>
+
+    </body>
+</html>

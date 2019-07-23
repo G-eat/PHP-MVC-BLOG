@@ -28,3 +28,6 @@
     </div>
 
 <?php  include '../app/views/include/footer.php'; ?>
+
+    </body>
+</html>

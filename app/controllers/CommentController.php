@@ -3,27 +3,33 @@
 namespace App\Controllers;
 
 use App\Core\Controller;
+use App\Core\Message;
 use App\Models\User;
 use App\Models\Comment;
 
 /**
- * Comment
+ * CommentController
  */
-class CommentController extends Controller {
-    public function __construct($params = null) {
-       $user = new User();
+class CommentController extends Controller
+{
+    public function __construct($params = null)
+    {
+        $user = new User();
 
-       $user->isSetRemmember_me();
+        $user->isSetRemmember_me();
 
-       $this->params = $params;
-       $this->model = 'App\Models\Comment';
-       parent::__construct($params);
+        $this->params = $params;
+        $this->model = 'App\Models\Comment';
+        parent::__construct($params);
     }
 
-    public function delete($id='' , $slug='') {
+    public function delete($id='', $slug='')
+    {
         $comment = new Comment();
+        $message = new Message();
 
         if ($id === '' || $slug === '') {
+            $message->setMsg('Error page not found.', 'error');
             Controller::redirect('/post/index');
         }
 
@@ -34,10 +40,8 @@ class CommentController extends Controller {
 
             Controller::redirect('/post/individual/'.$slug);
         } else {
+            $message->setMsg('You not authorized.', 'error');
             Controller::redirect('/post/index');
         }
     }
-
 }
-
-?>

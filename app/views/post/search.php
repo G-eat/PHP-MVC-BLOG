@@ -30,7 +30,7 @@
       </div>
       <div class="col-3 border-left" style="position:fixed;right:30px">
         <div class="list-group">
-            <?php if (isset($_SESSION['user'])){ ?>
+            <?php if (isset($_SESSION['user'])) { ?>
                 <p>Do you want to create post? </p><a href="/post/createpost">Create here.</a>
             <?php } else { ?>
                 <p><a href="/user/login">LogIn</a> to create post.</p>
@@ -48,6 +48,7 @@
     </ul>
   </nav>
 
- <?php
-    include '../app/views/include/footer.php';
-  ?>
+<?php include '../app/views/include/footer.php'; ?>
+
+    </body>
+</html>

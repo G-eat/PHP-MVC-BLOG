@@ -6,17 +6,9 @@
   include '../app/views/include/messages.php';
 
   if (!isset($_SESSION['admin'])) {
-    Controller::redirect('post/index');
+      Controller::redirect('post/index');
   }
-
-  include '../app/views/include/messages.php';
 ?>
-<style media="screen">
-    span {
-        display:inline-block;
-        margin-right: 10px;
-    }
-</style>
 
     <div class="container">
         <h3 class="text-center">Tags</h3>
@@ -38,13 +30,14 @@
                 </tr>
             </tfoot>
         </table>
-        <?php if(isset($_SESSION['admin'])) {?>
+        <?php if (isset($_SESSION['admin'])) { ?>
                 <!-- Button trigger modal -->
                 <button type="button" class="btn btn-dark btn-block mt-3 active" data-toggle="modal" data-target="#exampleModal">
                     Create Tag
                 </button>
         <?php } ?>
     </div>
+
     <!-- Modal -->
     <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
       <div class="modal-dialog" role="document">
@@ -71,50 +64,8 @@
 
  <?php
     include '../app/views/include/footer.php';
+    include '../app/views/include/javascript/tag_datatables.js';
   ?>
-  <script type="text/javascript">
-    $('#tags').DataTable({
-        "processing": true,
-        "serverSide": true,
-        "ajax":  "/datatables/tag.php",
-        "columnDefs": [
-            {
-                // The `data` parameter refers to the data for the cell (defined by the
-                // `data` option, which defaults to the column being worked with, in
-                // this case `data: 0`.
-                "render": function ( data, type, row ) {
-                    return '<span><a href="/post/tag/'+ row[1].substr(1)+'"><i class="fa fa-eye fa-lg" aria-hidden="true"></i></a></span><span><form onsubmit="return confirm(`Are you sure you want to delete this tag?`);" action="/tag/delete" method="post"><input type="hidden" name="tag_id" value='+row[0]+'><input type="hidden" name="tag_name" value='+row[1]+'><button type="submit" class="btn btn-outline-danger btn-sm"><i class="fa fa-trash fa-lg" aria-hidden="true"></i></button></a></form></span>';
-                    // return '<p class="btn btn-outline-danger delete-tag" data-id="'+row[0]+'" data-name="'+row[1]+'">X</p>';
-                },
-                "targets": 3
-            },
-            // {
-            //     // The `data` parameter refers to the data for the cell (defined by the
-            //     // `data` option, which defaults to the column being worked with, in
-            //     // this case `data: 0`.
-            //     "render": function ( data, type, row ) {
-            //         return '<a href="/post/tag/'+ row[1].substr(1)+'">'+row[1]+'</a>';
-            //         // return '<p class="btn btn-outline-danger delete-tag" data-id="'+row[0]+'" data-name="'+row[1]+'">X</p>';
-            //     },
-            //     "targets": 1
-            // },
-        ]
-    })
 
-    $(document).ready(function () {
-        $(".delete-tag").click(function(){
-            var id = $(this).data('id') ;
-            var name = $(this).data('name') ;
-
-            $.ajax({
-                     url: "/tag/delete",
-                     method:'POST',
-                     data:{tag_id:id,tag_name:name},
-                     dataType:'JSON',
-                     success: function(result){
-                         alert('success');
-                     }
-            });
-        });
-    });
-  </script>
+    </body>
+</html>

@@ -3,46 +3,53 @@
 namespace App\Controllers;
 
 use App\Core\Controller;
+use App\Core\Message;
 use App\Models\User;
 use App\Models\Category;
-use App\Core\Message;
 
 if (!isset($_SESSION['admin'])) {
     $message = new Message();
 
-    $message->setMsg('You not authorized.','success');
+    $message->setMsg('You not authorized.', 'error');
     Controller::redirect('/post/index');
 }
 
 /**
- * Category
+ * CategoryController
  */
-class CategoryController extends Controller {
-        public function __construct($params = null) {
-           $user = new User();
+class CategoryController extends Controller
+{
+    public function __construct($params = null)
+    {
+        $user = new User();
 
-           $user->isSetRemmember_me();
+        $user->isSetRemmember_me();
 
-           $this->params = $params;
-           $this->model = 'App\Models\Category';
-           parent::__construct($params);
-        }
+        $this->params = $params;
+        $this->model = 'App\Models\Category';
+        parent::__construct($params);
+    }
 
-        public function change($value='') {
-            $category = new Category();
+    public function edit($value='')
+    {
+        $category = new Category();
+        $message = new Message();
 
-            if (isset($value)) {
-                $data = $category->getCategoryNameById($value);
+        if ($value !== '') {
+            $data = $category->getCategoryNameById($value);
 
-                $this->view('admin\update',[
-                  'value' => $data
-                ]);
-                $this->view->render();
-            } else {
+            if ($data == null) {
+                $message->setMsg('Error page not found.', 'error');
                 Controller::redirect('/post/index');
             }
+
+            $this->view('admin\update', [
+                  'value' => $data
+                ]);
+            $this->view->render();
+        } else {
+            $message->setMsg('Error page not found.', 'error');
+            Controller::redirect('/post/index');
         }
-
+    }
 }
-
-?>

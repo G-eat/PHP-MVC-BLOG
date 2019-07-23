@@ -45,6 +45,7 @@
     </div>
   </div>
 
- <?php
-    include '../app/views/include/footer.php';
-  ?>
+<?php include '../app/views/include/footer.php'; ?>
+
+    </body>
+</html>

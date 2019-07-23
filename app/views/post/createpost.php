@@ -1,24 +1,19 @@
 <?php
 
-  use App\Core\Data;
-
-  $data = new Data;
+  use App\Core\Controller;
 
   include '../app/views/include/header.php';
   include '../app/views/include/messages.php';
 
-  if (isset($_SESSION['user'])) {
+  if (!isset($_SESSION['user'])) {
+      Controller::redirect('/post/index');
+  }
 
-    if (isset($this->data['errrors'])) {
+  if (isset($this->data['errrors'])) {
       echo '<h5 class="alert alert-danger container">'.$this->data['errrors'].'</h5>';
-    }
-
-    if (!isset($_SESSION['user'])) {
-        Controller::redirect('/post/index');
-    }
-
-    include '../app/views/include/messages.php';
+  }
 ?>
+
   <div class="container mt-3">
     <div class="border border-secondary p-5">
       <h5 class="mb-4">Create new post.</h5>
@@ -26,7 +21,7 @@
         <div class="row">
           <div class="form-group col-6">
             <label class="text-info" for="exampleInputTitle">Title :</label>
-            <input type="text" class="form-control" aria-describedby="titleHelp" name="title" placeholder="Post title" value="<?php echo isset($_SESSION['title']) ? $data->display('title') :'' ?>" required minlength=3>
+            <input type="text" class="form-control" aria-describedby="titleHelp" name="title" placeholder="Post title" value="<?php echo isset($_SESSION['title']) ? $this->data['data']->display('title') :'' ?>" required minlength=3>
             <?php
                 if (isset($_SESSION['title'])) {
                     unset($_SESSION['title']);
@@ -35,12 +30,12 @@
           </div>
           <div class="form-group col-6">
             <label class="text-info" for="exampleInputSlug">Slug :</label>
-            <input type="text" class="form-control" aria-describedby="slugHelp" name="slug" placeholder="Post slug" value="<?php echo isset($_SESSION['slug']) ? $data->display('slug') :'' ?>" required minlength=3>
+            <input type="text" class="form-control" aria-describedby="slugHelp" name="slug" placeholder="Post slug" value="<?php echo isset($_SESSION['slug']) ? $this->data['data']->display('slug') :'' ?>" required minlength=3>
           </div>
         </div>
         <div class="form-group">
           <label class="text-info" for="exampleFormControlTextarea1">Body :</label>
-          <textarea class="form-control" id="exampleFormControlTextarea1" name="body-editor1" rows="5" placeholder="Post body"><?php echo isset($_SESSION['body']) ? $data->display('body') :'' ?></textarea>
+          <textarea class="form-control" id="exampleFormControlTextarea1" name="body-editor1" rows="5" placeholder="Post body"><?php echo isset($_SESSION['body']) ? $this->data['data']->display('body') :'' ?></textarea>
         </div>
         <div class="form-group">
           <label class="text-info" for="exampleFormControlSelect1">Category :</label>
@@ -66,12 +61,8 @@
       </form>
     </div>
   </div>
-<?php
-  } else {
-    header("Location: /post/index");
-  }
-?>
 
-<?php
-   include '../app/views/include/footer.php';
- ?>
+<?php include '../app/views/include/footer.php'; ?>
+
+    </body>
+</html>

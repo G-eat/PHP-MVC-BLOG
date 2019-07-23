@@ -3,75 +3,80 @@
 namespace App\Models;
 
 use App\Core\Controller;
-use App\Database\Database;
 use App\Core\Message;
+use App\Database\Database;
 
 /**
  * Category
  */
-class Category {
-
-    public function insertCategory($category) {
+class Category
+{
+    public function insertCategory($category)
+    {
         $database = new Database();
-        return $database->insert(['categories'],['name'],["'".$category."'"]);
+        return $database->insert(['categories'], ['name'], ["'".$category."'"]);
     }
 
-    public function deleteCategory($id) {
+    public function deleteCategory($id)
+    {
         $database = new Database();
-        return $database->delete(['categories'],[['id','=',"'".$id."'"]]);
+        return $database->delete(['categories'], [['id','=',"'".$id."'"]]);
     }
 
-    public function updateArticlesCategoryName($name) {
+    public function updateArticlesCategoryName($name)
+    {
         $database = new Database();
-        return $database->update(['articles'],[['category','=','null']],[['category','=',"'".$name."'"]]);
+        return $database->update(['articles'], [['category','=','null']], [['category','=',"'".$name."'"]]);
     }
 
-    public function getCategoryNameById($value) {
+    public function getCategoryNameById($value)
+    {
         $database = new Database();
-        return $database->select(['*'],['categories'],[['id'],['='],["'".$value."'"]]);
+        return $database->select(['*'], ['categories'], [['id'],['='],["'".$value."'"]]);
     }
 
-    public function updateCategory($category,$category_id) {
+    public function updateCategory($category, $category_id)
+    {
         $database = new Database();
-        return $database->update(['categories'],[['name','=',"'".$category."'"]],[['id','=',"'".$category_id."'"]]);
+        return $database->update(['categories'], [['name','=',"'".$category."'"]], [['id','=',"'".$category_id."'"]]);
     }
 
-    public function create() {
+    public function create()
+    {
         $message = new Message();
 
         if (isset($_POST['submit'])) {
-          if ($_POST['add_category'] !== '') {
-            $message->setMsg("Your're created category.",'success');
-            $this->insertCategory($_POST['add_category']);
-          }
-          Controller::redirect('/admin/categories');
+            if ($_POST['add_category'] !== '') {
+                $message->setMsg("Your're created category.", 'success');
+                $this->insertCategory($_POST['add_category']);
+            }
+            Controller::redirect('/admin/categories');
         }
     }
 
-    public function update() {
+    public function update()
+    {
         $message = new Message();
 
         $category_id = $_POST['category_id'];
         $category = $_POST['category'];
 
-        $this->updateCategory($category,$category_id);
+        $this->updateCategory($category, $category_id);
 
-        $message->setMsg("Your're updated category.",'success');
+        $message->setMsg("Your're updated category.", 'success');
         Controller::redirect('/admin/categories');
     }
 
-    public function delete() {
+    public function delete()
+    {
         $message = new Message();
         $category = new Category();
 
         if ($_POST['category_id'] !== '') {
-          $this->deleteCategory($_POST['category_id']);
-          $message->setMsg("Your're deleted category.",'error');
-          $this->updateArticlesCategoryName($_POST['category_name']);
+            $this->deleteCategory($_POST['category_id']);
+            $message->setMsg("Your're deleted category.", 'error');
+            $this->updateArticlesCategoryName($_POST['category_name']);
         }
         Controller::redirect('/admin/categories');
     }
-
 }
-
-?>

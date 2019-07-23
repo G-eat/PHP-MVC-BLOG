@@ -4,8 +4,9 @@
 
   include '../app/views/include/header.php';
   include '../app/views/include/messages.php';
+
   if (!isset($_SESSION['admin'])) {
-    Controller::redirect('post/index');
+      Controller::redirect('post/index');
   }
 ?>
 
@@ -24,25 +25,26 @@
                   </span>
                 <?php echo $article['title'] ?>
                 <span style="float:right">
-                <?php if ($article['is_published'] == 'pending'){ ?>
+                <?php if ($article['is_published'] == 'pending') { ?>
                         <form action="/admin/publish" method="post">
                             <input type="hidden" name="id" value="<?php echo $article['id'] ?>">
                             <input class="btn btn-success" type="submit" name="is_publish" value="Publish">
                             <input class="btn btn-danger" type="submit" name="is_publish" value="Reject">
                         </form>
-                <?php } elseif($article['is_published'] == 'Publish') { ?>
+                <?php } elseif ($article['is_published'] == 'Publish') { ?>
                     <p class="text-success">Publish</p>
                 <?php } else { ?>
                     <p class="text-danger">Reject</p>
                 <?php } ?>
                 </span>
             </a>
-            <?php } ?>
+          <?php } ?>
         </div>
       </div>
     </div>
   </div>
 
- <?php
-    include '../app/views/include/footer.php';
-  ?>
+<?php include '../app/views/include/footer.php'; ?>
+
+    </body>
+</html>
