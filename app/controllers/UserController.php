@@ -8,7 +8,7 @@ use App\Database\Database;
 use App\Models\User;
 
 /**
- * homeController
+ * UserController
  */
 class UserController extends Controller
 {

@@ -10,7 +10,7 @@ use App\Models\User;
 use App\Models\Post;
 
 /**
- * Post
+ * PostController
  */
 class PostController extends Controller
 {

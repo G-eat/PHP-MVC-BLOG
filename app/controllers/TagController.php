@@ -6,7 +6,7 @@ use App\Models\User;
 use App\Core\Controller;
 
 /**
- * Tag
+ * TagController
  */
 class TagController extends Controller
 {

@@ -30,13 +30,13 @@ class CategoryController extends Controller
         parent::__construct($params);
     }
 
-    public function edit($value='')
+    public function edit($id='')
     {
         $category = new Category();
         $message = new Message();
 
-        if ($value !== '') {
-            $data = $category->getCategoryNameById($value);
+        if ($id !== '') {
+            $data = $category->getCategoryNameById($id);
 
             if ($data == null) {
                 $message->setMsg('Error page not found.', 'error');

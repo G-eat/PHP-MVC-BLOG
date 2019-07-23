@@ -79,4 +79,28 @@ class Comment
             Controller::redirect('/post/index');
         }
     }
+
+    public function delete()
+    {
+        $message = new Message();
+
+        $id = $_POST['id'];
+        $slug = $_POST['slug'];
+
+        if ($id === '' || $slug === '') {
+            $message->setMsg('Error page not found.', 'error');
+            Controller::redirect('/post/index');
+        }
+
+        $data = $this->getAuthorOfPostById($id);
+
+        if ((isset($_SESSION['user']) && $_SESSION['user'] === $data[0]['author']) || isset($_SESSION['admin'])) {
+            $this->deleteById($id);
+
+            Controller::redirect('/post/individual/'.$slug);
+        } else {
+            $message->setMsg('You not authorized.', 'error');
+            Controller::redirect('/post/index');
+        }
+    }
 }

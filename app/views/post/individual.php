@@ -49,9 +49,13 @@
                   <h5 class="card-title"><?php echo $comment['comment'] ?></h5>
                   <p class="card-text text-muted"><?php echo $comment['created_at'] ?>
                       <?php if ((isset($_SESSION['user']) && $_SESSION['user'] === $comment['author']) || isset($_SESSION['admin'])): ?>
-                          <a href='/comment/delete/<?php echo $comment['id'] ?>/<?php echo $this->data['article'][0]['slug'] ?>' style="float:right">Delete</a>
-                          <a data-toggle="modal" class="update-comment mr-3" data-id="<?php echo $comment['id'] ?>" data-slug="<?php echo $this->data['article'][0]['slug'] ?>"
-                          data-comment="<?php echo $comment['comment'] ?>" data-target="#exampleModal" style="float:right;cursor:pointer;">Update</a>
+                          <form action="/comment/delete" method="post">
+                              <input type="hidden" name="slug" value="<?php echo $this->data['article'][0]['slug'] ?>">
+                              <input type="hidden" name="id" value="<?php echo $comment['id'] ?>">
+                              <button type="submit" class="btn btn-outline-danger btn-sm" style="float:right"><i class="fa fa-trash fa-lg" aria-hidden="true"></i></button>
+                          </form>
+                          <button data-toggle="modal" class="update-comment mr-2 btn btn-outline-success btn-sm" data-id="<?php echo $comment['id'] ?>" data-slug="<?php echo $this->data['article'][0]['slug'] ?>"
+                          data-comment="<?php echo $comment['comment'] ?>" data-target="#exampleModal" style="float:right;cursor:pointer;"><i class="fa fa-pencil fa-lg" aria-hidden="true"></i></button>
                       <?php endif; ?>
                   </p>
               </div>

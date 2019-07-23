@@ -29,22 +29,22 @@ class Admin
         return $database->update(['articles'], [['position','=',"'".$num."'"]], [['id','=',"'".$position."'"]]);
     }
 
-    public function updateArticlesIsPublished($is_publish, $id)
-    {
-        $database = new Database();
-        return $database->update(['articles'], [['is_published','=',"'".$is_publish."'"]], [['id','=',"'".$id."'"]]);
-    }
-
     public function updateCommentIsAccepted($is_accepted, $id)
     {
         $database = new Database();
         return $database->update(['comments'], [['accepted','=',"'".$is_accepted."'"]], [['id','=',"'".$id."'"]]);
     }
-
+    
     public function getArticleById($id)
     {
         $database = new Database();
         return $database->select(['*'], ['articles'], [['id','=',"'".$id."'"]]);
+    }
+
+    public function updateArticlesIsPublished($is_publish, $id)
+    {
+        $database = new Database();
+        return $database->update(['articles'], [['is_published','=',"'".$is_publish."'"]], [['id','=',"'".$id."'"]]);
     }
 
     public function publish()
