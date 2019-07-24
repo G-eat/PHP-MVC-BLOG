@@ -20,7 +20,7 @@ class Tag
     public function updateTagNameInArticlesTagTable($tag_name)
     {
         $database = new Database();
-        return $database->update(['articles_tag'], [['tag_name','=',"'empty'"]], [['tag_name','=',"'".$tag_name."'"]]);
+        return $database->update(['articles_tag'], [['tag_name','=','null']], [['tag_name','=',"'".$tag_name."'"]]);
     }
 
     public function deleteTag($tag_id)
