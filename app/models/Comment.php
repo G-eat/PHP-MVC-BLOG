@@ -55,9 +55,7 @@ class Comment
             $this->insertCommment($_POST['comment'], $_POST['author'], $_POST['article_id']);
 
             if (isset($_SESSION['admin'])) {
-                $data = $database->update(['comments'],[['accepted','=','"Accepted"']],[['article_id','=',$_POST['article_id']]]);
-                $message->setMsg('You comment.', 'success');
-                Controller::redirect('/post/individual/'.$article_slug);
+                $this->adminCommentAccept($_POST['article_id'], $article_slug);
             }
 
             $message->setMsg('You create the comment,now admin need to accept that.', 'success');
@@ -66,6 +64,16 @@ class Comment
             $message->setMsg('Empty Comment.', 'error');
             Controller::redirect('/post/index');
         }
+    }
+
+    public function adminCommentAccept($article_id, $article_slug)
+    {
+        $database = new Database();
+        $message = new Message();
+
+        $data = $database->update(['comments'], [['accepted','=','"Accepted"']], [['article_id','=',$article_id]]);
+        $message->setMsg('You comment.', 'success');
+        Controller::redirect('/post/individual/'.$article_slug);
     }
 
     public function update()
@@ -81,9 +89,7 @@ class Comment
             $this->updateAcceptedColumnWhereCommentIsUpdated($_POST['update_comment'], $_POST['update_id']);
 
             if (isset($_SESSION['admin'])) {
-                $data = $database->update(['comments'],[['accepted','=','"Accepted"']],[['id','=', $_POST['update_id']]]);
-                $message->setMsg('You update comment.', 'success');
-                Controller::redirect('/post/individual/'.$_POST['comment_slug']);
+                $this->adminUpdateCommentAccept($_POST['update_id'], $_POST['comment_slug']);
             }
 
             $message->setMsg('You update the comment,now admin need to accept that.', 'success');
@@ -92,6 +98,16 @@ class Comment
             $message->setMsg('Empty Comment.', 'error');
             Controller::redirect('/post/index');
         }
+    }
+
+    public function adminUpdateCommentAccept($update_id, $comment_slug)
+    {
+        $database = new Database();
+        $message = new Message();
+
+        $data = $database->update(['comments'], [['accepted','=','"Accepted"']], [['id','=', $update_id]]);
+        $message->setMsg('You update comment.', 'success');
+        Controller::redirect('/post/individual/'.$comment_slug);
     }
 
     public function delete()

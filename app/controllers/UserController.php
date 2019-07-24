@@ -33,19 +33,19 @@ class UserController extends Controller
             $user->logIn($_POST['password'], $_POST['username'], $remmeberme);
 
             $this->view('user\index', [
-                  'page' => 'LogIn',
-                  'error' => $user->errors,
-                  'username' => $_POST['username'],
-                  'msg' => ''
-              ]);
+                'page' => 'LogIn',
+                'error' => $user->errors,
+                'username' => $_POST['username'],
+                'msg' => ''
+            ]);
             $this->view->render();
         //login method get
         } else {
             $this->view('user\index', [
-                  'page' => 'LogIn',
-                  'error' => '',
-                  'msg' => $msg
-              ]);
+                'page' => 'LogIn',
+                'error' => '',
+                'msg' => $msg
+            ]);
             $this->view->render();
         }
     }
@@ -157,7 +157,7 @@ class UserController extends Controller
                 $params["domain"],
                 $params["secure"],
                 $params["httponly"]
-        );
+            );
         }
 
         // delete cookies

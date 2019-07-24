@@ -44,8 +44,8 @@ class CategoryController extends Controller
             }
 
             $this->view('admin\update', [
-                  'value' => $data
-                ]);
+                'value' => $data
+            ]);
             $this->view->render();
         } else {
             $message->setMsg('Error page not found.', 'error');

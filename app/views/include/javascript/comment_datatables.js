@@ -34,9 +34,9 @@
                     } else {
                      return '<p class="text-danger">Reject</p>';
                     }
-            },
-            "targets": 5
-        }
-      ]
+                },
+                "targets": 5
+            }
+        ]
    });
 </script>

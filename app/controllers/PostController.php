@@ -165,14 +165,14 @@ class PostController extends Controller
               'category_articles' => $category_articles,
               'category' => $category,
               'categories' => $categories
-          ]);
+            ]);
             $this->view->render();
         } else {
             $this->view('post\category', [
               'articles' => $articles,
               'category' => $category,
               'categories' => $categories
-          ]);
+            ]);
             $this->view->render();
         }
     }
