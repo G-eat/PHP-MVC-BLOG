@@ -61,20 +61,6 @@ class AdminController extends Controller
         $this->view->render();
     }
 
-    public function position()
-    {
-        $admin = new Admin();
-
-        $positions = $_POST['positions'];
-
-        $num = 1;
-
-        foreach ($positions as $position) {
-            $admin->updateArticlesPosition($num, $position);
-            $num ++;
-        }
-    }
-
     public function comments()
     {
         $database = new Database();
@@ -85,21 +71,6 @@ class AdminController extends Controller
           'comments' => $comments
         ]);
         $this->view->render();
-    }
-
-    //accept comment from admin and publish them
-    public function accept()
-    {
-        $admin = new Admin();
-        $message = new Message();
-
-        $is_accepted = $_POST['is_accepted'];
-        $id = $_POST['id'];
-
-        $message->setMsg('You create task.', 'success');
-        $admin->updateCommentIsAccepted($is_accepted, $id);
-
-        Controller::redirect('/admin/comments');
     }
 
     public function post($id = '')
@@ -123,12 +94,3 @@ class AdminController extends Controller
         $this->view->render();
     }
 }
-
-//accept post from admin and publish them
-// public function publish() {
-//     $is_publish = $_POST['is_publish'];
-//     $id = $_POST['id'];
-//
-//     Admin::updateArticlesIsPublished($is_publish,$id);
-//     Controller::redirect('/admin/articles');
-// }

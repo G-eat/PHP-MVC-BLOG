@@ -11,36 +11,6 @@ use App\Database\Database;
  */
 class Category
 {
-    public function insertCategory($category)
-    {
-        $database = new Database();
-        return $database->insert(['categories'], ['name'], ["'".$category."'"]);
-    }
-
-    public function deleteCategory($id)
-    {
-        $database = new Database();
-        return $database->delete(['categories'], [['id','=',"'".$id."'"]]);
-    }
-
-    public function updateArticlesCategoryName($name)
-    {
-        $database = new Database();
-        return $database->update(['articles'], [['category','=','null']], [['category','=',"'".$name."'"]]);
-    }
-
-    public function getCategoryNameById($value)
-    {
-        $database = new Database();
-        return $database->select(['*'], ['categories'], [['id'],['='],["'".$value."'"]]);
-    }
-
-    public function updateCategory($category, $category_id)
-    {
-        $database = new Database();
-        return $database->update(['categories'], [['name','=',"'".$category."'"]], [['id','=',"'".$category_id."'"]]);
-    }
-
     public function create()
     {
         $message = new Message();
@@ -78,5 +48,35 @@ class Category
             $this->updateArticlesCategoryName($_POST['category_name']);
         }
         Controller::redirect('/admin/categories');
+    }
+
+    public function insertCategory($category)
+    {
+        $database = new Database();
+        return $database->insert(['categories'], ['name'], ["'".$category."'"]);
+    }
+
+    public function deleteCategory($id)
+    {
+        $database = new Database();
+        return $database->delete(['categories'], [['id','=',"'".$id."'"]]);
+    }
+
+    public function updateArticlesCategoryName($name)
+    {
+        $database = new Database();
+        return $database->update(['articles'], [['category','=','null']], [['category','=',"'".$name."'"]]);
+    }
+
+    public function getCategoryNameById($value)
+    {
+        $database = new Database();
+        return $database->select(['*'], ['categories'], [['id'],['='],["'".$value."'"]]);
+    }
+
+    public function updateCategory($category, $category_id)
+    {
+        $database = new Database();
+        return $database->update(['categories'], [['name','=',"'".$category."'"]], [['id','=',"'".$category_id."'"]]);
     }
 }

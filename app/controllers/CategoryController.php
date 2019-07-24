@@ -43,7 +43,7 @@ class CategoryController extends Controller
                 Controller::redirect('/post/index');
             }
 
-            $this->view('admin\update', [
+            $this->view('category\update', [
                 'value' => $data
             ]);
             $this->view->render();

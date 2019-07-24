@@ -11,34 +11,6 @@ use App\Database\Database;
  */
 class Comment
 {
-    public function insertCommment($comment, $author, $article_id)
-    {
-        $database = new Database();
-        return $database->insert(['comments'], ['comment','author','article_id'], ["'".$comment."'","'".$author."'","'".$article_id."'"]);
-    }
-
-    public function getAuthorOfPostById($id)
-    {
-        $database = new Database();
-        return $database->select(['author'], ['comments'], [['id','=',"'".$id."'"]]);
-    }
-
-    public function deleteById($id)
-    {
-        $database = new Database();
-        $message = new Message();
-
-        $message->setMsg("Your're deleted comment.", 'error');
-
-        return $database->delete(['comments'], [['id','=',"'".$id."'"]]);
-    }
-
-    public function updateAcceptedColumnWhereCommentIsUpdated($comment, $comment_id)
-    {
-        $database = new Database();
-        return $database->update(['comments'], [['comment','=',"'".$comment."'"],['accepted','=',"'pending'"]], [['id','=',"'".$comment_id."'"]]);
-    }
-
     public function create()
     {
         $message = new Message();
@@ -132,5 +104,33 @@ class Comment
             $message->setMsg('You not authorized.', 'error');
             Controller::redirect('/post/index');
         }
+    }
+    
+    public function insertCommment($comment, $author, $article_id)
+    {
+        $database = new Database();
+        return $database->insert(['comments'], ['comment','author','article_id'], ["'".$comment."'","'".$author."'","'".$article_id."'"]);
+    }
+
+    public function getAuthorOfPostById($id)
+    {
+        $database = new Database();
+        return $database->select(['author'], ['comments'], [['id','=',"'".$id."'"]]);
+    }
+
+    public function deleteById($id)
+    {
+        $database = new Database();
+        $message = new Message();
+
+        $message->setMsg("Your're deleted comment.", 'error');
+
+        return $database->delete(['comments'], [['id','=',"'".$id."'"]]);
+    }
+
+    public function updateAcceptedColumnWhereCommentIsUpdated($comment, $comment_id)
+    {
+        $database = new Database();
+        return $database->update(['comments'], [['comment','=',"'".$comment."'"],['accepted','=',"'pending'"]], [['id','=',"'".$comment_id."'"]]);
     }
 }

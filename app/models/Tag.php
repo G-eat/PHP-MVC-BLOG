@@ -11,24 +11,6 @@ use App\Database\Database;
  */
 class Tag
 {
-    public function insertTag($tag)
-    {
-        $database = new Database();
-        return $database->insert(['tags'], ['name'], ["'#".$tag."'"]);
-    }
-
-    public function updateTagNameInArticlesTagTable($tag_name)
-    {
-        $database = new Database();
-        return $database->update(['articles_tag'], [['tag_name','=','null']], [['tag_name','=',"'".$tag_name."'"]]);
-    }
-
-    public function deleteTag($tag_id)
-    {
-        $database = new Database();
-        return $database->delete(['tags'], [['id','=',"'".$tag_id."'"]]);
-    }
-
     public function create()
     {
         $message = new Message();
@@ -63,5 +45,23 @@ class Tag
             }
             Controller::redirect('/admin/tags');
         }
+    }
+    
+    public function insertTag($tag)
+    {
+        $database = new Database();
+        return $database->insert(['tags'], ['name'], ["'#".$tag."'"]);
+    }
+
+    public function updateTagNameInArticlesTagTable($tag_name)
+    {
+        $database = new Database();
+        return $database->update(['articles_tag'], [['tag_name','=','null']], [['tag_name','=',"'".$tag_name."'"]]);
+    }
+
+    public function deleteTag($tag_id)
+    {
+        $database = new Database();
+        return $database->delete(['tags'], [['id','=',"'".$tag_id."'"]]);
     }
 }

@@ -66,10 +66,10 @@ class PostController extends Controller
     public function createpost()
     {
         $database = new Database();
+        $data = new Data();
 
         $categories = $database->select(['*'], ['categories']);
         $tags = $database->select(['*'], ['tags']);
-        $data = new Data();
 
         $this->view('post\createpost', [
             'categories' => $categories,
@@ -93,6 +93,7 @@ class PostController extends Controller
         }
 
         $post->seeIfArticleIsPublished($slug, $article);
+
         $author_articles = $post->articleAuthor($article[0]['author']);
         $tags = $post->tagsWithSameSlug($slug);
         $comments = $post->commentAccepted($article[0]['id']);
@@ -220,12 +221,7 @@ class PostController extends Controller
 
         $tag = '#'.$value;
 
-        $mysql = 'SELECT DISTINCT articles.*,articles_tag.article_slug
-                  FROM articles_tag INNER JOIN articles ON articles_tag.article_slug =articles.slug
-                  WHERE articles_tag.tag_name = "'.$tag.'" AND articles.is_published = "publish"';
-
-        $articles = $database->raw($mysql);
-
+        $articles = articlesWithThisTagPublished($tag);
         $categories = $database->select(['*'], ['categories']);
 
         $this->view('post\tag', [

@@ -34,6 +34,94 @@ class Post
         return $text;
     }
 
+
+    public function create()
+    {
+        $database = new Database();
+        $message = new Message();
+        $data = new Data();
+
+        $slug = "'".$this->slug($_POST['slug'])."'";
+        $check = $this->seeIfArticleSlugExist($slug);
+
+        if ($check == 1) {
+            $data->setData($_POST['title'], 'title');
+            $data->setData($this->slug($_POST['slug']), 'slug');
+            $data->setData($_POST['body-editor1'], 'body');
+            $data->setData($_POST['category'], 'category');
+
+            $message->setMsg('This slug exist,try different slug.', 'error');
+            Controller::redirect('/post/createpost');
+        } else {
+            $image = $this->uploadPhoto($_FILES['image']['name']);
+
+            $this->insertTag($_POST['tags'], $slug);
+            $database->insert(
+                    ['articles'],
+                    ['author','title','body','slug','category','file_name'],
+                    ["'".$_SESSION['user']."'","'".$_POST['title']."'","'".$_POST['body-editor1']."'",$slug,"'".$_POST['category']."'","'".$image."'" ]
+                );
+
+            if (isset($_SESSION['admin'])) {
+                $this->updateIs_PublishedWhenAdminCreatePost($slug);
+            }
+
+            $message->setMsg('You create the post,now admin need to accept that.', 'success');
+            Controller::redirect('/post/index');
+        }
+    }
+
+    public function updateIs_PublishedWhenAdminCreatePost($slug)
+    {
+        $database = new Database();
+        $message = new Message();
+
+        $database->update(['articles'], [['is_published','=','"Publish"']], [['slug','=',$slug]]);
+        $message->setMsg('You create the post', 'success');
+        Controller::redirect('/post/index');
+    }
+
+    public function delete()
+    {
+        $database = new Database();
+        $message = new Message();
+
+        if ((isset($_SESSION['user']) && $_POST['author'] == $_SESSION['user']) || isset($_SESSION['admin'])) {
+            $id = $_POST['id'];
+            $slug = $_POST['slug'];
+            $author = isset($_POST['author']) ? $_POST['author']:'';
+
+            $file_name = $database->select(['file_name'], ['articles'], [['id','=',"'".$id."'"]]);
+
+            unlink('.\postPhoto\\'.$file_name[0]['file_name']);
+            unlink('.\originalPostPhoto\\'.$file_name[0]['file_name']);
+
+            $database->delete(['comments'], [['article_id','=',"'".$id."'"]]);
+            $database->delete(['articles'], [['id','=',"'".$id."'"]]);
+            $database->delete(['articles_tag'], [['article_slug','=',"'".$slug."'"]]);
+
+
+            $message->setMsg('You deleted the post.', 'error');
+
+            if (isset($_SESSION['admin']) && $author == '') {
+                Controller::redirect('/admin/articles');
+            }
+
+            Controller::redirect('/post/user/'.$author);
+        } else {
+            $message->setMsg("Your're not authorized.", 'error');
+            Controller::redirect('/post/index');
+        }
+    }
+
+    public function articlesWithThisTagPublished($tag)
+    {
+        $mysql = 'SELECT DISTINCT articles.*,articles_tag.article_slug
+                  FROM articles_tag INNER JOIN articles ON articles_tag.article_slug =articles.slug
+                  WHERE articles_tag.tag_name = "'.$tag.'" AND articles.is_published = "publish"';
+        return  $database->raw($mysql);
+    }
+
     public function getArticles($order, $by, $limit_from, $to)
     {
         $database = new Database();
@@ -82,7 +170,7 @@ class Post
 
         $file_destination = '.\postPhoto\\'.$image;
         // Compress Image
-        $this->compressImage($_FILES['image']['tmp_name'],$file_destination,60);
+        $this->compressImage($_FILES['image']['tmp_name'], $file_destination, 60);
         $file_destination_original_photo = '.\originalPostPhoto\\'.$image;
         move_uploaded_file($_FILES['image']['tmp_name'], $file_destination_original_photo);
 
@@ -90,22 +178,19 @@ class Post
     }
 
     // Compress image
-    function compressImage($source, $destination, $quality)
+    public function compressImage($source, $destination, $quality)
     {
+        $info = getimagesize($source);
 
-      $info = getimagesize($source);
+        if ($info['mime'] == 'image/jpeg') {
+            $image = imagecreatefromjpeg($source);
+        } elseif ($info['mime'] == 'image/gif') {
+            $image = imagecreatefromgif($source);
+        } elseif ($info['mime'] == 'image/png') {
+            $image = imagecreatefrompng($source);
+        }
 
-      if ($info['mime'] == 'image/jpeg')
-        $image = imagecreatefromjpeg($source);
-
-      elseif ($info['mime'] == 'image/gif')
-        $image = imagecreatefromgif($source);
-
-      elseif ($info['mime'] == 'image/png')
-        $image = imagecreatefrompng($source);
-
-      imagejpeg($image, $destination, $quality);
-
+        imagejpeg($image, $destination, $quality);
     }
 
     public function insertTag($tags, $slug)
@@ -224,76 +309,5 @@ class Post
     {
         $database = new Database();
         return $database->select(['*'], ['articles'], [['id'.'=',"'".$articles_id."'"]]);
-    }
-
-    public function create()
-    {
-        $database = new Database();
-        $message = new Message();
-        $data = new Data();
-
-        $slug = "'".$this->slug($_POST['slug'])."'";
-        $check = $this->seeIfArticleSlugExist($slug);
-
-        if ($check == 1) {
-            $data->setData($_POST['title'], 'title');
-            $data->setData($this->slug($_POST['slug']), 'slug');
-            $data->setData($_POST['body-editor1'], 'body');
-            $data->setData($_POST['category'], 'category');
-
-            $message->setMsg('This slug exist,try different slug.', 'error');
-            Controller::redirect('/post/createpost');
-        } else {
-            $image = $this->uploadPhoto($_FILES['image']['name']);
-
-            $this->insertTag($_POST['tags'], $slug);
-            $database->insert(
-                ['articles'],
-                ['author','title','body','slug','category','file_name'],
-                ["'".$_SESSION['user']."'","'".$_POST['title']."'","'".$_POST['body-editor1']."'",$slug,"'".$_POST['category']."'","'".$image."'" ]
-            );
-
-            if (isset($_SESSION['admin'])) {
-                $data = $database->update(['articles'],[['is_published','=','"Publish"']],[['slug','=',$slug]]);
-                $message->setMsg('You create the post', 'success');
-                Controller::redirect('/post/index');
-            }
-
-            $message->setMsg('You create the post,now admin need to accept that.', 'success');
-            Controller::redirect('/post/index');
-        }
-    }
-
-    public function delete()
-    {
-        $database = new Database();
-        $message = new Message();
-
-        if ((isset($_SESSION['user']) && $_POST['author'] == $_SESSION['user']) || isset($_SESSION['admin'])) {
-            $id = $_POST['id'];
-            $slug = $_POST['slug'];
-            $author = isset($_POST['author']) ? $_POST['author']:'';
-
-            $file_name = $database->select(['file_name'],['articles'],[['id','=',"'".$id."'"]]);
-
-            unlink('.\postPhoto\\'.$file_name[0]['file_name']);
-            unlink('.\originalPostPhoto\\'.$file_name[0]['file_name']);
-
-            $database->delete(['comments'], [['article_id','=',"'".$id."'"]]);
-            $database->delete(['articles'], [['id','=',"'".$id."'"]]);
-            $database->delete(['articles_tag'], [['article_slug','=',"'".$slug."'"]]);
-
-
-            $message->setMsg('You deleted the post.', 'error');
-
-            if (isset($_SESSION['admin']) && $author == '') {
-                Controller::redirect('/admin/articles');
-            }
-
-            Controller::redirect('/post/user/'.$author);
-        } else {
-            $message->setMsg("Your're not authorized.", 'error');
-            Controller::redirect('/post/index');
-        }
     }
 }

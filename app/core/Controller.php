@@ -13,8 +13,8 @@ use App\Models\User;
 use App\Models\Post;
 
 /**
-   * Controller
-   */
+* Controller
+*/
 class Controller
 {
     protected $view;
@@ -25,6 +25,18 @@ class Controller
     public function __construct($params)
     {
         $this->params = $params;
+    }
+
+    public function accept()
+    {
+        $model = new $this->model;
+        $model->accept($this->params);
+    }
+
+    public function position()
+    {
+        $model = new $this->model;
+        $model->position($this->params);
     }
 
     public function create()

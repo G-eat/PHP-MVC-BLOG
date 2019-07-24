@@ -17,6 +17,48 @@ if (!isset($_SESSION['admin'])) {
  */
 class Admin
 {
+    //accept comment from admin and publish them
+    public function accept()
+    {
+        $message = new Message();
+
+        $is_accepted = $_POST['is_accepted'];
+        $id = $_POST['id'];
+
+        $message->setMsg('You complete a task.', 'success');
+        $this->updateCommentIsAccepted($is_accepted, $id);
+
+        Controller::redirect('/admin/comments');
+    }
+
+    // articles position
+    public function position()
+    {
+        $positions = $_POST['positions'];
+
+        $num = 1;
+
+        foreach ($positions as $position) {
+            $this->updateArticlesPosition($num, $position);
+            $num ++;
+        }
+    }
+
+    // accept to be public an article
+    public function publish()
+    {
+        $message = new Message();
+
+        $is_publish = $_POST['is_publish'];
+        $id = $_POST['id'];
+
+        $message->setMsg('You create task.', 'success');
+
+        $this->updateArticlesIsPublished($is_publish, $id);
+
+        Controller::redirect('/admin/articles');
+    }
+
     public function getAllArticlesByPosition()
     {
         $database = new Database();
@@ -45,19 +87,5 @@ class Admin
     {
         $database = new Database();
         return $database->update(['articles'], [['is_published','=',"'".$is_publish."'"]], [['id','=',"'".$id."'"]]);
-    }
-
-    public function publish()
-    {
-        $message = new Message();
-
-        $is_publish = $_POST['is_publish'];
-        $id = $_POST['id'];
-
-        $message->setMsg('You create task.', 'success');
-
-        $this->updateArticlesIsPublished($is_publish, $id);
-
-        Controller::redirect('/admin/articles');
     }
 }
