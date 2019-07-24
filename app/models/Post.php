@@ -253,6 +253,12 @@ class Post
                 ["'".$_SESSION['user']."'","'".$_POST['title']."'","'".$_POST['body-editor1']."'",$slug,"'".$_POST['category']."'","'".$image."'" ]
             );
 
+            if (isset($_SESSION['admin'])) {
+                $data = $database->update(['articles'],[['is_published','=','"Publish"']],[['slug','=',$slug]]);
+                $message->setMsg('You create the post', 'success');
+                Controller::redirect('/post/index');
+            }
+
             $message->setMsg('You create the post,now admin need to accept that.', 'success');
             Controller::redirect('/post/index');
         }
@@ -263,14 +269,27 @@ class Post
         $database = new Database();
         $message = new Message();
 
-        if (isset($_SESSION['user']) && $_POST['author'] == $_SESSION['user']) {
+        if ((isset($_SESSION['user']) && $_POST['author'] == $_SESSION['user']) || isset($_SESSION['admin'])) {
             $id = $_POST['id'];
-            $author = $_POST['author'];
+            $slug = $_POST['slug'];
+            $author = isset($_POST['author']) ? $_POST['author']:'';
+
+            $file_name = $database->select(['file_name'],['articles'],[['id','=',"'".$id."'"]]);
+
+            unlink('.\postPhoto\\'.$file_name[0]['file_name']);
+            unlink('.\originalPostPhoto\\'.$file_name[0]['file_name']);
 
             $database->delete(['comments'], [['article_id','=',"'".$id."'"]]);
             $database->delete(['articles'], [['id','=',"'".$id."'"]]);
+            $database->delete(['articles_tag'], [['article_slug','=',"'".$slug."'"]]);
+
 
             $message->setMsg('You deleted the post.', 'error');
+
+            if (isset($_SESSION['admin']) && $author == '') {
+                Controller::redirect('/admin/articles');
+            }
+
             Controller::redirect('/post/user/'.$author);
         } else {
             $message->setMsg("Your're not authorized.", 'error');

@@ -42,6 +42,7 @@ class Comment
     public function create()
     {
         $message = new Message();
+        $database = new Database();
 
         if (!isset($_SESSION['user'])) {
             $message->setMsg("You're not logIn.", 'error');
@@ -52,6 +53,12 @@ class Comment
             $article_slug = $_POST['article_slug'];
 
             $this->insertCommment($_POST['comment'], $_POST['author'], $_POST['article_id']);
+
+            if (isset($_SESSION['admin'])) {
+                $data = $database->update(['comments'],[['accepted','=','"Accepted"']],[['article_id','=',$_POST['article_id']]]);
+                $message->setMsg('You comment.', 'success');
+                Controller::redirect('/post/individual/'.$article_slug);
+            }
 
             $message->setMsg('You create the comment,now admin need to accept that.', 'success');
             Controller::redirect('/post/individual/'.$article_slug);
@@ -64,6 +71,7 @@ class Comment
     public function update()
     {
         $message = new Message();
+        $database = new Database();
 
         if (isset($_POST['submit']) && (trim($_POST['update_comment']) !== '')) {
             if (!isset($_SESSION['user']) || $_POST['author'] !== $_SESSION['user']) {
@@ -71,6 +79,12 @@ class Comment
             }
 
             $this->updateAcceptedColumnWhereCommentIsUpdated($_POST['update_comment'], $_POST['update_id']);
+
+            if (isset($_SESSION['admin'])) {
+                $data = $database->update(['comments'],[['accepted','=','"Accepted"']],[['id','=', $_POST['update_id']]]);
+                $message->setMsg('You update comment.', 'success');
+                Controller::redirect('/post/individual/'.$_POST['comment_slug']);
+            }
 
             $message->setMsg('You update the comment,now admin need to accept that.', 'success');
             Controller::redirect('/post/individual/'.$_POST['comment_slug']);

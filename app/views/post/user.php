@@ -22,10 +22,11 @@
                 <?php } ?>
             <?php endif; ?>
           <div class="card mb-3">
-            <?php if (isset($_SESSION['user']) && $this->data['author'] == $_SESSION['user']) { ?>
-                <form action="/post/delete" method="post" style="float:right">
+            <?php if ((isset($_SESSION['user']) && $this->data['author'] == $_SESSION['user']) || isset($_SESSION['admin'])) { ?>
+                <form action="/post/delete" onsubmit="return confirm(`Are you sure you want to delete this article?`);" method="post" style="float:right">
                     <input type="hidden" name="id" value="<?php echo $article['id'] ?>">
                     <input type="hidden" name="author" value="<?php echo $article['author'] ?>">
+                    <input type="hidden" name="slug" value="<?php echo $article['slug'] ?>">
                     <input class="btn btn-danger btn-sm mr-4" type="submit" name="delete" value="Delete">
                 </form>
             <?php } ?>

@@ -9,6 +9,14 @@
         <h3 class="text-center text-info"><?php echo $this->data['article'][0]['title'] ?></h3>
         <div class="list-group">
           <div class="card mb-3">
+            <?php if ((isset($_SESSION['user']) && $this->data['article'][0]['author'] == $_SESSION['user']) || isset($_SESSION['admin'])) { ?>
+                <form action="/post/delete" onsubmit="return confirm(`Are you sure you want to delete this article?`);" method="post" style="float:right">
+                    <input type="hidden" name="id" value="<?php echo $this->data['article'][0]['id'] ?>">
+                    <input type="hidden" name="author" value="<?php echo $this->data['article'][0]['author'] ?>">
+                    <input type="hidden" name="slug" value="<?php echo $this->data['article'][0]['slug'] ?>">
+                    <input class="btn btn-danger btn-sm mr-4" type="submit" name="delete" value="Delete">
+                </form>
+            <?php } ?>
             <img class="card-img-top" src="\originalPostPhoto\<?php echo $this->data['article'][0]['file_name'] ?>" style="width:70%;height:50%;margin:auto" alt="Card image cap">
             <div class="card-body">
               <p class="card-text"><?php echo $this->data['article'][0]['body'] ?></p>
@@ -49,7 +57,7 @@
                   <h5 class="card-title"><?php echo $comment['comment'] ?></h5>
                   <p class="card-text text-muted"><?php echo $comment['created_at'] ?>
                       <?php if ((isset($_SESSION['user']) && $_SESSION['user'] === $comment['author']) || isset($_SESSION['admin'])): ?>
-                          <form action="/comment/delete" method="post">
+                          <form action="/comment/delete" onsubmit="return confirm(`Are you sure you want to delete this article?`);" method="post">
                               <input type="hidden" name="slug" value="<?php echo $this->data['article'][0]['slug'] ?>">
                               <input type="hidden" name="id" value="<?php echo $comment['id'] ?>">
                               <button type="submit" class="btn btn-outline-danger btn-sm" style="float:right"><i class="fa fa-trash fa-lg" aria-hidden="true"></i></button>

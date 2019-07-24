@@ -19,6 +19,14 @@
         <?php endif; ?>
         <?php foreach ($this->data['articles'] as $article) { ?>
           <div class="card mb-3">
+            <?php if ((isset($_SESSION['user']) && $article['author'] == $_SESSION['user']) || isset($_SESSION['admin'])) { ?>
+                <form action="/post/delete" onsubmit="return confirm(`Are you sure you want to delete this article?`);" method="post" style="float:right">
+                    <input type="hidden" name="id" value="<?php echo $article['id'] ?>">
+                    <input type="hidden" name="author" value="<?php echo $article['author'] ?>">
+                    <input type="hidden" name="slug" value="<?php echo $article['slug'] ?>">
+                    <input class="btn btn-danger btn-sm mr-4" type="submit" name="delete" value="Delete">
+                </form>
+            <?php } ?>
             <img class="card-img-top" src="\postPhoto\<?php echo $article['file_name'] ?>" style="width:65%;height:50%;margin:auto" alt="Card image cap">
             <div class="card-body">
               <h5 class="card-title"><?php echo $article['title'] ?></h5>

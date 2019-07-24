@@ -60,19 +60,4 @@ class Admin
 
         Controller::redirect('/admin/articles');
     }
-
-    public function delete()
-    {
-        $database = new Database();
-        $message = new Message();
-
-        $id = $_POST['id'];
-
-        $database->delete(['comments'], [['article_id','=',"'".$id."'"]]);
-        $database->delete(['articles'], [['id','=',"'".$id."'"]]);
-
-        $message->setMsg('You delete article.', 'error');
-
-        Controller::redirect('/admin/articles');
-    }
 }

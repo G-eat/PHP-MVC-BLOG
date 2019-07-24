@@ -83,7 +83,7 @@ class User
         $mysql = 'SELECT * FROM `users` WHERE `username` = "'.$username.'" AND `password` ="'. $password1.'" AND `token` =1';
         $data = count($database->raw($mysql));
 
-        if ($data !== '1') {
+        if ($data !== 1) {
             $this->errors[] ='Incorrect Password or you not verify your email.';
         }
     }
