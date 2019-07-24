@@ -71,9 +71,9 @@ class Post
     {
         $database = new Database();
 
-        $mysql = 'SELECT COUNT(*) FROM `articles` WHERE `slug` = '.$slug;
+        $mysql = 'SELECT * FROM `articles` WHERE `slug` = '.$slug;
 
-        return $database->raw($mysql);
+        return count($database->raw($mysql));
     }
 
     public function uploadPhoto($image)
@@ -220,24 +220,6 @@ class Post
         return ceil(count($all_articles)/5);
     }
 
-    public function getArticlesTag($tag)
-    {
-        $database = new Database();
-        return $database->select(['*'], ['articles_tag'], [['tag_name','=',"'".$tag."'"]]);
-    }
-
-    public function getArticlesId($articles_slug)
-    {
-        $database = new Database();
-        return $database->select(['id'], ['articles'], [['slug','=',"'".$articles_slug."'"],['AND'],['is_published','=','"Publish"']]);
-    }
-
-    public function getArticlesWithThisTag($articles_id)
-    {
-        $database = new Database();
-        return $database->select(['*'], ['articles'], [['id'.'=',"'".$articles_id."'"]]);
-    }
-
     public function getElement($articles_id)
     {
         $database = new Database();
@@ -253,7 +235,7 @@ class Post
         $slug = "'".$this->slug($_POST['slug'])."'";
         $check = $this->seeIfArticleSlugExist($slug);
 
-        if ($check[0] == 1) {
+        if ($check == 1) {
             $data->setData($_POST['title'], 'title');
             $data->setData($this->slug($_POST['slug']), 'slug');
             $data->setData($_POST['body-editor1'], 'body');

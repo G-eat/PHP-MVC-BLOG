@@ -327,7 +327,7 @@ class Database implements DBInterface
         self::connect();
         $query = self::$db->prepare($mysql);
         $query->execute();
-        $data = $query->fetch();
+        $data = $query->fetchAll();
         return $data;
     }
 }

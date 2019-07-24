@@ -22,11 +22,6 @@
           <div class="form-group col-6">
             <label class="text-info" for="exampleInputTitle">Title :</label>
             <input type="text" class="form-control" aria-describedby="titleHelp" name="title" placeholder="Post title" value="<?php echo isset($_SESSION['title']) ? $this->data['data']->display('title') :'' ?>" required minlength=3>
-            <?php
-                if (isset($_SESSION['title'])) {
-                    unset($_SESSION['title']);
-                }
-            ?>
           </div>
           <div class="form-group col-6">
             <label class="text-info" for="exampleInputSlug">Slug :</label>

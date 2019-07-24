@@ -219,20 +219,12 @@ class PostController extends Controller
         }
 
         $tag = '#'.$value;
-        $articles_tag = $post->getArticlesTag($tag);
 
-        foreach ($articles_tag as $article_tag) {
-            $article_id = $post->getArticlesId($article_tag['article_slug']);
-            $article_id == null ? '' : $articles_id[] = $article_id;
-        }
+        $mysql = 'SELECT DISTINCT articles.*,articles_tag.article_slug
+                  FROM articles_tag INNER JOIN articles ON articles_tag.article_slug =articles.slug
+                  WHERE articles_tag.tag_name = "'.$tag.'" AND articles.is_published = "publish"';
 
-        $articles = array();
-        if (isset($articles_id)) {
-            for ($i = 0; $i < count($articles_id); $i++) {
-                $data = $post->getArticlesWithThisTag($articles_id[$i][0]['id']);
-                $articles[] = $data;
-            }
-        }
+        $articles = $database->raw($mysql);
 
         $categories = $database->select(['*'], ['categories']);
 

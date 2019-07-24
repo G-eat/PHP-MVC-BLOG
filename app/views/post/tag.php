@@ -9,13 +9,13 @@
         <h3 class="text-info mt-3"><?php echo $this->data['tag'] ?></h3>
             <?php foreach ($this->data['articles'] as $article) { ?>
                 <div class="card mb-3">
-                  <img class="card-img-top" src="\postPhoto\<?php echo $article[0]['file_name'] ?>" style="width:65%;height:50%;margin:auto" alt="Card image cap">
+                  <img class="card-img-top" src="\postPhoto\<?php echo $article['file_name'] ?>" style="width:65%;height:50%;margin:auto" alt="Card image cap">
                   <div class="card-body">
-                    <h5 class="card-title"><?php echo $article[0]['title'] ?></h5>
-                    <p class="card-text"><?php echo substr($article[0]['body'], 0, 300); ?>...</p>
+                    <h5 class="card-title"><?php echo $article['title'] ?></h5>
+                    <p class="card-text"><?php echo substr($article['body'], 0, 300); ?>...</p>
                     <div class="row">
-                      <p class="card-text col-8"><small class="text-muted">Created at : <?php echo $article[0]['created_at'] ?></small></p>
-                      <a href="/post/individual/<?php echo $article[0]['slug'] ?>" class="btn btn-primary col-4" target="_blank">Read More</a>
+                      <p class="card-text col-8"><small class="text-muted">Created at : <?php echo $article['created_at'] ?></small></p>
+                      <a href="/post/individual/<?php echo $article['slug'] ?>" class="btn btn-primary col-4" target="_blank">Read More</a>
                     </div>
                   </div>
                 </div>

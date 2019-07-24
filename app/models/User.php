@@ -80,10 +80,10 @@ class User
 
         $password1 = md5($password);
 
-        $mysql = 'SELECT COUNT(*) FROM `users` WHERE `username` = "'.$username.'" AND `password` ="'. $password1.'" AND `token` =1';
-        $data = $database->raw($mysql);
+        $mysql = 'SELECT * FROM `users` WHERE `username` = "'.$username.'" AND `password` ="'. $password1.'" AND `token` =1';
+        $data = count($database->raw($mysql));
 
-        if ($data[0] !== '1') {
+        if ($data !== '1') {
             $this->errors[] ='Incorrect Password or you not verify your email.';
         }
     }
@@ -144,20 +144,20 @@ class User
         $message = new Message();
         $user_data = new Data();
 
-        $mysql = 'SELECT COUNT(*) FROM `users` WHERE `username` = '."'".$username."'";
-        $mysql2 = 'SELECT COUNT(*) FROM `users` WHERE `email` = '."'".$email."'";
+        $mysql = 'SELECT * FROM `users` WHERE `username` = '."'".$username."'";
+        $mysql2 = 'SELECT * FROM `users` WHERE `email` = '."'".$email."'";
 
-        $data = $database->raw($mysql);
-        $data2 = $database->raw($mysql2);
+        $data = count($database->raw($mysql));
+        $data2 = count($database->raw($mysql2));
 
         $num = 0;
 
-        if ($data[0] == 1) {
+        if ($data == 1) {
             $num = 1;
             $message->setMsg('This username is use.', 'error');
         }
 
-        if ($data2[0] == 1) {
+        if ($data2 == 1) {
             $num = 1;
             $message->setMsg('This email is use.', 'error1');
         }
@@ -220,10 +220,10 @@ class User
     {
         $database = new Database();
 
-        $mysql = 'SELECT COUNT(*) FROM `users` WHERE `token` ='."'".$token."'".' AND `username` = '."'".$username."'";
-        $data = $database->raw($mysql);
+        $mysql = 'SELECT * FROM `users` WHERE `token` ='."'".$token."'".' AND `username` = '."'".$username."'";
+        $data = count($database->raw($mysql));
 
-        if ($data[0] == 1) {
+        if ($data == 1) {
             $database->update(['users'], [['token','=','1']], [['username','=',"'".$username."'"]]);
 
             session_regenerate_id(true);
