@@ -58,7 +58,8 @@ class PostController extends Controller
             'error' => $error,
             'nr_page' => $nr_page,
             'page_current' => $id,
-            'order' => $order
+            'order' => $order,
+            'page' => 'Index'
         ]);
         $this->view->render();
     }
@@ -221,7 +222,7 @@ class PostController extends Controller
 
         $tag = '#'.$value;
 
-        $articles = articlesWithThisTagPublished($tag);
+        $articles = $post->articlesWithThisTagPublished($tag);
         $categories = $database->select(['*'], ['categories']);
 
         $this->view('post\tag', [

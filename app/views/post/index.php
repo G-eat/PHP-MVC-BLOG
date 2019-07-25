@@ -24,6 +24,8 @@
                             <input type="hidden" name="id" value="<?php echo $article['id'] ?>">
                             <input type="hidden" name="author" value="<?php echo $article['author'] ?>">
                             <input type="hidden" name="slug" value="<?php echo $article['slug'] ?>">
+                            <input type="hidden" name="page" value="<?php echo $this->data['page'] ?>">
+                            <input type="hidden" name="order" value="<?php echo $this->data['order'] ?>">
                             <input class="btn btn-danger btn-sm mr-4" type="submit" name="delete" value="Delete">
                         </form>
                     <?php } ?>

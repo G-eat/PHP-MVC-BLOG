@@ -43,7 +43,7 @@
             </div>
             <div class="form-group">
                 <label class="text-info" for="exampleFormControlSelect2">Tags :</label>
-                <select class="form-control" id="exampleFormControlSelect2" name="tags[]" multiple required>
+                <select class="form-control" id="exampleFormControlSelect2" name="tags[]" multiple>
                     <?php foreach ($this->data['tags'] as $tag) { ?>
                         <option value="<?php echo $tag['name'] ?>"><?php echo $tag['name'] ?></option>
                     <?php } ?>

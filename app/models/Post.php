@@ -41,6 +41,11 @@ class Post
         $message = new Message();
         $data = new Data();
 
+        if ($_FILES['image']['size'] > 1388608 || $_FILES['image']['size'] == 0) {
+            $message->setMsg('You\'re photo is too large.', 'error');
+            Controller::redirect('/post/index');
+        }
+
         $slug = "'".$this->slug($_POST['slug'])."'";
         $check = $this->seeIfArticleSlugExist($slug);
 
@@ -53,13 +58,13 @@ class Post
             $message->setMsg('This slug exist,try different slug.', 'error');
             Controller::redirect('/post/createpost');
         } else {
-            $image = $this->uploadPhoto($_FILES['image']['name']);
+            $image = $this->uploadPhoto($_FILES['image']['name'], $_FILES['image']['size']);
 
             $this->insertTag($_POST['tags'], $slug);
             $database->insert(
-                    ['articles'],
-                    ['author','title','body','slug','category','file_name'],
-                    ["'".$_SESSION['user']."'","'".$_POST['title']."'","'".$_POST['body-editor1']."'",$slug,"'".$_POST['category']."'","'".$image."'" ]
+                ['articles'],
+                ['author','title','body','slug','category','file_name'],
+                ["'".$_SESSION['user']."'","'".$_POST['title']."'","'".$_POST['body-editor1']."'",$slug,"'".$_POST['category']."'","'".$image."'" ]
                 );
 
             if (isset($_SESSION['admin'])) {
@@ -90,6 +95,8 @@ class Post
             $id = $_POST['id'];
             $slug = $_POST['slug'];
             $author = isset($_POST['author']) ? $_POST['author']:'';
+            $page = isset($_POST['page']) ? $_POST['page']:'';
+            $order = isset($_POST['order']) ? $_POST['order']:'';
 
             $file_name = $database->select(['file_name'], ['articles'], [['id','=',"'".$id."'"]]);
 
@@ -102,6 +109,10 @@ class Post
 
 
             $message->setMsg('You deleted the post.', 'error');
+
+            if ($page !== '') {
+                Controller::redirect('/post/index/'.$order);
+            }
 
             if (isset($_SESSION['admin']) && $author == '') {
                 Controller::redirect('/admin/articles');
@@ -116,6 +127,8 @@ class Post
 
     public function articlesWithThisTagPublished($tag)
     {
+        $database = new Database();
+
         $mysql = 'SELECT DISTINCT articles.*,articles_tag.article_slug
                   FROM articles_tag INNER JOIN articles ON articles_tag.article_slug =articles.slug
                   WHERE articles_tag.tag_name = "'.$tag.'" AND articles.is_published = "publish"';
@@ -164,12 +177,14 @@ class Post
         return count($database->raw($mysql));
     }
 
-    public function uploadPhoto($image)
+    public function uploadPhoto($image, $size)
     {
+        $message = new Message();
+
         $image = uniqid('', true) . '-' .$_FILES['image']['name'];
 
         $file_destination = '.\postPhoto\\'.$image;
-        // Compress Image
+        // // Compress Image
         $this->compressImage($_FILES['image']['tmp_name'], $file_destination, 60);
         $file_destination_original_photo = '.\originalPostPhoto\\'.$image;
         move_uploaded_file($_FILES['image']['tmp_name'], $file_destination_original_photo);
