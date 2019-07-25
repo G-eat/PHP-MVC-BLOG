@@ -26,6 +26,7 @@
                             <input type="hidden" name="slug" value="<?php echo $article['slug'] ?>">
                             <input type="hidden" name="page" value="<?php echo $this->data['page'] ?>">
                             <input type="hidden" name="order" value="<?php echo $this->data['order'] ?>">
+                            <input type="hidden" name="page_current" value="<?php echo $this->data['page_current'] ?>">
                             <input class="btn btn-danger btn-sm mr-4" type="submit" name="delete" value="Delete">
                         </form>
                     <?php } ?>

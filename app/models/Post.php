@@ -97,6 +97,7 @@ class Post
             $author = isset($_POST['author']) ? $_POST['author']:'';
             $page = isset($_POST['page']) ? $_POST['page']:'';
             $order = isset($_POST['order']) ? $_POST['order']:'';
+            $page_current = isset($_POST['page_current']) ? $_POST['page_current']:'';
 
             $file_name = $database->select(['file_name'], ['articles'], [['id','=',"'".$id."'"]]);
 
@@ -111,7 +112,7 @@ class Post
             $message->setMsg('You deleted the post.', 'error');
 
             if ($page !== '') {
-                Controller::redirect('/post/index/'.$order);
+                Controller::redirect('/post/index/'.$order.'/'.$page_current);
             }
 
             if (isset($_SESSION['admin']) && $author == '') {
